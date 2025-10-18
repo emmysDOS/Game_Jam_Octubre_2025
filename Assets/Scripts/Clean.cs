@@ -7,15 +7,21 @@ public class Clean : MonoBehaviour
     [SerializeField] private Texture2D _dirtMaskBase;
     [SerializeField] private Texture2D _brush;
     [SerializeField] private Material _material;
+    Color[] originalPixels;
 
     private Texture2D _templateDirtMask;
     private Vector2 _lastMousePos;
     private Vector2? _lastBrushUV = null;
     [SerializeField] private bool _isCleaning = false;
 
+    //[SerializeField] private Vector2[] coords;
+    public int index;
+
+
     private void Start()
     {
         CreateTexture();
+        //coords = new Vector2[10];
     }
     private void Update()
     {
@@ -33,6 +39,12 @@ public class Clean : MonoBehaviour
         {
             _isCleaning = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            float cleaned = GetCleanPercentage();
+            Debug.Log($"Cleaned: {cleaned:F2}%");
+        }
     }
 
     private void CleanSurface()
@@ -41,6 +53,7 @@ public class Clean : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Vector2 textureCoord = hit.textureCoord;
+
 
 
             Debug.Log("Texture Coord:" + textureCoord);
@@ -74,8 +87,33 @@ public class Clean : MonoBehaviour
             if (_isCleaning)
             {
                 _templateDirtMask.Apply();
+               // if (textureCoord != )
+                index++;
             }
         }
+    }
+    public float GetCleanPercentage()
+    {
+        Color[] originalPixels = _dirtMaskBase.GetPixels();
+        Color[] currentPixels = _templateDirtMask.GetPixels();
+
+        int totalPixels = originalPixels.Length;
+        int cleanPixels = 0;
+
+        for (int i = 0; i < totalPixels; i++)
+        {
+            float originalGreen = originalPixels[i].g;
+            float currentGreen = currentPixels[i].g;
+
+            // If current green is significantly lower than the original, it's cleaner
+            if (currentGreen < originalGreen * 0.9f) // or set your own threshold
+            {
+                cleanPixels++;
+            }
+        }
+
+        float cleanPercent = (float)cleanPixels / totalPixels;
+        return cleanPercent * 100f;
     }
 
     private void CreateTexture()
