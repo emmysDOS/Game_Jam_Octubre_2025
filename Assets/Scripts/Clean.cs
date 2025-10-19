@@ -96,7 +96,7 @@ public class Clean : MonoBehaviour
     }
 
 
-/*
+/* 
     public float GetCleanPercentage()
     {
         Color[] originalPixels = _dirtMaskBase.GetPixels();
