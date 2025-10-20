@@ -9,7 +9,6 @@ public class Draw : MonoBehaviour
 
     public Texture2D texture;
     public float radius = 1.0f;
-    public Color color;
     public bool reinitialize;
     void Update () 
     {
@@ -21,7 +20,6 @@ public class Draw : MonoBehaviour
 
     public void ReinitializeCanvas(Texture2D texture)
     {
-        texture.Reinitialize(texture.width, texture.height, TextureFormat.RGBA64, true);
         texture.Reinitialize(texture.width, texture.height, TextureFormat.RGBA32, true);
         texture.Apply();
         reinitialize = false;
@@ -40,7 +38,7 @@ public class Draw : MonoBehaviour
                 Vector2 UVcoord = hit.textureCoord;
                 UVcoord.x *= texture.width;
                 UVcoord.y *= texture.height;
-                Debug.Log(UVcoord);
+                //Debug.Log(UVcoord);
                 DrawCircle(UVcoord, texture);
             }
         }
@@ -52,7 +50,7 @@ public class Draw : MonoBehaviour
             for (float y = -radius; y <= radius; y++)
             {
                 if ((x * x) + (y * y) <= radius * radius)
-                    texture.SetPixel((int)(origin.x + x), (int)(origin.y + y), color);
+                    texture.SetPixel((int)(origin.x + x), (int)(origin.y + y), Color.clear);
             }
         }
         texture.Apply();
