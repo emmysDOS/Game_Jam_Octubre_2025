@@ -1,40 +1,41 @@
 using UnityEngine;
+using System.Collections;
 public class Draw : MonoBehaviour
 {
     /// <summary>
     /// This script needs to be attached to the camera
     /// </summary>
     
-    public Transform canvas;
-
+    //Texture
+    [SerializeField] private Transform canvas;
     public Texture2D texture;
     public float radius = 1.0f;
     public bool reinitialize;
+    
+    //Percentage calculation
+    public int percentage;
+    [SerializeField] private float calculePercTimer = 3f;
+    [SerializeField] bool canCalculePercentage = true;
     void Update () 
     {
         if (reinitialize)
             ReinitializeCanvas(texture);
         if (Input.GetMouseButton(0))
             GetCoords();
-    }
-
-    public void ReinitializeCanvas(Texture2D texture)
-    {
-        texture.Reinitialize(texture.width, texture.height, TextureFormat.RGBA32, true);
-        texture.Apply();
-        reinitialize = false;
-    }
-
+        if (canCalculePercentage)
+            StartCoroutine(GetPercentageRoutine());
+    } 
     void GetCoords()
     {
         RaycastHit hit;
         Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.transform.name == canvas.name)
+            if (true)
             {
-                Renderer renderer = hit.transform.GetComponent<Renderer>();
-                texture = (Texture2D)renderer.material.mainTexture;
+                canvas =  hit.transform;
+                Renderer rend = hit.transform.GetComponent<Renderer>();
+                texture = (Texture2D)rend.material.mainTexture;
                 Vector2 UVcoord = hit.textureCoord;
                 UVcoord.x *= texture.width;
                 UVcoord.y *= texture.height;
@@ -43,17 +44,64 @@ public class Draw : MonoBehaviour
             }
         }
     }
-    void DrawCircle(Vector2 origin, Texture2D texture)
+    void DrawCircle(Vector2 origin, Texture2D tex)
     {
         for (float x = -radius; x <= radius; x++)
         {
             for (float y = -radius; y <= radius; y++)
             {
                 if ((x * x) + (y * y) <= radius * radius)
-                    texture.SetPixel((int)(origin.x + x), (int)(origin.y + y), Color.clear);
+                    tex.SetPixel((int)(origin.x + x), (int)(origin.y + y), Color.clear);
             }
         }
-        texture.Apply();
+        tex.Apply();
     }
+    public void ReinitializeCanvas(Texture2D tex)
+    {
+        tex.Reinitialize(tex.width, tex.height, TextureFormat.RGBA32, true);
+        tex.Apply();
+        GetPercentage();
+        reinitialize = false;
+    }
+
+    private void GetPercentage()
+    {
+        //Stopwatch s = Stopwatch.StartNew();
+        int black = 0;
+        int white = 0;
+        Color32[] colors = texture.GetPixels32();
+        for (int i = 0; i < colors.Length; i++)
+        {
+            switch (colors[i].r == 0)
+            {
+                case true:
+                {
+                    white++;
+                    break;
+                }
+                default:
+                {
+                    black++;
+                    break;
+                }
+            }
+        }
+
+        percentage = (white * 100) / 16384;
+        //Debug.Log("S: " + s.ElapsedTicks);
+        //Debug.Log("Black " + black);
+        //Debug.Log("White: " + white);
+
+        //calculate = false;
+    }
+
+    private IEnumerator GetPercentageRoutine()
+    {
+        GetPercentage();
+        canCalculePercentage = false;
+        yield return new WaitForSeconds(calculePercTimer);
+        canCalculePercentage = true;
+    }
+    
     
 }
