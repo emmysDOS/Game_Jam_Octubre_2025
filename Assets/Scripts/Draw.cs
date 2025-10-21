@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 public class Draw : MonoBehaviour
 {
     /// <summary>
@@ -7,7 +8,7 @@ public class Draw : MonoBehaviour
     /// </summary>
     
     //Texture
-    [SerializeField] private Transform canvas;
+    public Transform canvas;
     public Texture2D texture;
     public float radius = 1.0f;
     public bool reinitialize;
@@ -21,9 +22,25 @@ public class Draw : MonoBehaviour
         if (reinitialize)
             ReinitializeCanvas(texture);
         if (Input.GetMouseButton(0))
-            GetCoords();
+        {
+            //Resets canvas on the first click inside the texture
+            if (texture == null)
+            {
+                GetCoords();
+                ReinitializeCanvas(texture);
+            }
+            else
+                GetCoords();
+        }
         if (canCalculePercentage)
             StartCoroutine(GetPercentageRoutine());
+
+
+        if (Input.GetKey(KeyCode.R))
+        {
+            Scene currentSceme = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentSceme.name);
+        }
     } 
     void GetCoords()
     {
@@ -87,7 +104,7 @@ public class Draw : MonoBehaviour
             }
         }
 
-        percentage = (white * 100) / 16384;
+        percentage = (white * 100) / colors.Length;
         //Debug.Log("S: " + s.ElapsedTicks);
         //Debug.Log("Black " + black);
         //Debug.Log("White: " + white);
