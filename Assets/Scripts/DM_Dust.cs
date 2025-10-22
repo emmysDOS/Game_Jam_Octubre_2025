@@ -10,6 +10,6 @@ public class DM_Dust : DirtMask
     private void Update()
     {
         if (draw.canvas == gameObject.transform)
-            HandleAliveTime();
+            HandleAliveTime(); 
     }
 }

@@ -6,16 +6,18 @@ public class Draw : MonoBehaviour
     /// <summary>
     /// This script needs to be attached to the camera
     /// </summary>
+
+    [SerializeField] private Input_Manager inputManager;
     
     //Texture
     public Transform canvas;
     public Texture2D texture;
-    public float radius = 1.0f;
+    public float radius;
     public bool reinitialize;
     
     //Percentage calculation
     public int percentage;
-    [SerializeField] private float calculePercTimer = 3f;
+    public float calculePercTimer = 3f;
     [SerializeField] bool canCalculePercentage = true;
     void Update () 
     {
@@ -23,7 +25,6 @@ public class Draw : MonoBehaviour
             ReinitializeCanvas(texture);
         if (Input.GetMouseButton(0))
         {
-            //Resets canvas on the first click inside the texture
             if (texture == null)
             {
                 GetCoords();
@@ -35,13 +36,18 @@ public class Draw : MonoBehaviour
         if (canCalculePercentage)
             StartCoroutine(GetPercentageRoutine());
 
+        ManagePercTimer();
 
-        if (Input.GetKey(KeyCode.R))
-        {
-            Scene currentSceme = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentSceme.name);
-        }
-    } 
+        if (inputManager.resetScene)
+            ResetScene();
+    }
+
+    private static void ResetScene()
+    {
+        Scene currentSceme = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentSceme.name);
+    }
+
     void GetCoords()
     {
         RaycastHit hit;
@@ -79,6 +85,24 @@ public class Draw : MonoBehaviour
         tex.Apply();
         GetPercentage();
         reinitialize = false;
+    }
+
+    private void ManagePercTimer()
+    {
+        switch(percentage)
+        {
+            case 0:
+                {
+                    calculePercTimer = .2f;
+                    ReinitializeCanvas(texture);
+                    break;
+                }
+            default:
+                {
+                    calculePercTimer = 3;
+                    break;
+                }
+        }
     }
 
     private void GetPercentage()
