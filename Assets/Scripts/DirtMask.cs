@@ -34,10 +34,14 @@ public class DirtMask : MonoBehaviour
         else
         {
             draw.canDraw = false;
-            if (inputManager.leftMouse && draw.canvas == gameObject.transform)
-                Debug.Log("You need to use Tool " + requiredTool + " to clean this surface");
-            else if (inputManager.leftMouse && draw.canvas == null)
-                Debug.Log("You need to choose a Tool before");
+            if (inputManager.leftMouse && draw.canvas == gameObject.transform && uiManager.selectedTool != requiredTool)
+               uiManager.SendAlert("You need to use Tool " + requiredTool + " to clean this surface");
+
+            else if (inputManager.leftMouse && uiManager.selectedTool == 0)
+                uiManager.SendAlert("You need to choose a tool before");
+            else if (uiManager.selectedTool != 0)
+                uiManager.CloseAlert();
+
                 
         }
     }
