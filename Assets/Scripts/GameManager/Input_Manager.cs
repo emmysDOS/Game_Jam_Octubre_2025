@@ -20,6 +20,18 @@ public class Input_Manager : MonoBehaviour
         leftMouse = Input.GetMouseButton(0);
     }
 
+    public byte HandleToolSelectionInput()
+    {
+        if (Input.GetKey(KeyCode.Alpha0))
+            return 0;
+        else if (Input.GetKey(KeyCode.Alpha1))
+            return 1;
+        else if (Input.GetKey(KeyCode.Alpha2))
+            return 2;
+        else
+            return 9;
+    }
+
     private void HandleCanvasRotation()
     {
         if (Input.GetKey(KeyCode.W))

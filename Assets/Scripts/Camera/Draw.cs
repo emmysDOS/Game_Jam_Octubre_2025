@@ -10,31 +10,33 @@ public class Draw : MonoBehaviour
     [SerializeField] private Input_Manager inputManager;
 
     //Texture
-    public bool canDraw;
     public Transform canvas;
-    public Texture2D texture;
+    public RaycastHit Hit;
+    public bool canDraw;
     public float radius;
-    public bool reinitialize;
+    
+    private Texture2D _texture;
+    private bool _reinitialize;
     
     //Percentage calculation
     public int percentage;
-    public float calculePercTimer = 3f;
-    [SerializeField] bool canCalculePercentage = true;
+    private float _calculePercTimer = 3f;
+    private bool _canCalculePercentage = true;
     void Update () 
     {
-        if (reinitialize)
-            ReinitializeCanvas(texture);
-        if (inputManager.leftMouse && canDraw)
+        if (_reinitialize)
+            ReinitializeCanvas();
+        if (inputManager.leftMouse)
         {
-            if (texture == null)
+            if (_texture == null)
             {
                 GetCoords();
-                ReinitializeCanvas(texture);
+                ReinitializeCanvas();
             }
             else
                 GetCoords();
         }
-        if (canCalculePercentage)
+        if (_canCalculePercentage)
             StartCoroutine(GetPercentageRoutine());
 
         ManagePercTimer();
@@ -51,20 +53,20 @@ public class Draw : MonoBehaviour
 
     void GetCoords()
     {
-        RaycastHit hit;
         Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out Hit))
         {
             if (true)
             {
-                canvas =  hit.transform;
-                Renderer rend = hit.transform.GetComponent<Renderer>();
-                texture = (Texture2D)rend.material.mainTexture;
-                Vector2 UVcoord = hit.textureCoord;
-                UVcoord.x *= texture.width;
-                UVcoord.y *= texture.height;
+                canvas =  Hit.transform;
+                Renderer rend = Hit.transform.GetComponent<Renderer>();
+                _texture = (Texture2D)rend.material.mainTexture;
+                Vector2 UVcoord = Hit.textureCoord;
+                UVcoord.x *= _texture.width;
+                UVcoord.y *= _texture.height;
                 //Debug.Log(UVcoord);
-                DrawCircle(UVcoord, texture);
+                if (canDraw)
+                    DrawCircle(UVcoord, _texture);
             }
         }
     }
@@ -80,12 +82,12 @@ public class Draw : MonoBehaviour
         }
         tex.Apply();
     }
-    public void ReinitializeCanvas(Texture2D tex)
+    public void ReinitializeCanvas()
     {
-        tex.Reinitialize(tex.width, tex.height, TextureFormat.RGBA32, true);
-        tex.Apply();
+        _texture.Reinitialize(_texture.width, _texture.height, TextureFormat.RGBA32, true);
+        _texture.Apply();
         GetPercentage();
-        reinitialize = false;
+        _reinitialize = false;
     }
 
     private void ManagePercTimer()
@@ -94,13 +96,13 @@ public class Draw : MonoBehaviour
         {
             case 0:
                 {
-                    calculePercTimer = .2f;
-                    ReinitializeCanvas(texture);
+                    _calculePercTimer = .2f;
+                    ReinitializeCanvas();
                     break;
                 }
             default:
                 {
-                    calculePercTimer = 3;
+                    _calculePercTimer = 3;
                     break;
                 }
         }
@@ -111,7 +113,7 @@ public class Draw : MonoBehaviour
         //Stopwatch s = Stopwatch.StartNew();
         int black = 0;
         int white = 0;
-        Color32[] colors = texture.GetPixels32();
+        Color32[] colors = _texture.GetPixels32();
         for (int i = 0; i < colors.Length; i++)
         {
             switch (colors[i].r == 0)
@@ -140,10 +142,9 @@ public class Draw : MonoBehaviour
     private IEnumerator GetPercentageRoutine()
     {
         GetPercentage();
-        canCalculePercentage = false;
-        yield return new WaitForSeconds(calculePercTimer);
-        canCalculePercentage = true;
+        _canCalculePercentage = false;
+        yield return new WaitForSeconds(_calculePercTimer);
+        _canCalculePercentage = true;
     }
-    
     
 }

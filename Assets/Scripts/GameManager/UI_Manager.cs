@@ -1,21 +1,20 @@
-using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
+    [SerializeField] private Input_Manager inputManager;
     [SerializeField] private Draw draw;
     [SerializeField] private Slider brushRadiusSlider;
-    [SerializeField] private TMP_Text perfentageText;
-    [SerializeField] private TMP_Text selectedToolText;
     [SerializeField] private GameObject alertBox;
     [SerializeField] private TMP_Text alertText;
+    [SerializeField] private TMP_Text percentageText;
+    [SerializeField] private TMP_Text selectedToolText;
     public byte selectedTool;
     public void ReinitializeCanvas()
     {
-       draw.ReinitializeCanvas(draw.texture);
+       draw.ReinitializeCanvas();
     }
 
     public void SetDrawRadius()
@@ -34,8 +33,10 @@ public class UI_Manager : MonoBehaviour
     {
         selectedTool = 2;
     }
-    private string HandleToolSelected(byte selectedTool)
+    private string HandleToolSelected()
     {
+        if (selectedTool != inputManager.HandleToolSelectionInput() && inputManager.HandleToolSelectionInput() != 9)
+            selectedTool = inputManager.HandleToolSelectionInput();
         switch (selectedTool)
         {
             case 0:
@@ -55,13 +56,19 @@ public class UI_Manager : MonoBehaviour
     }
     private void Start()
     {
-        alertBox.SetActive (false);
+        CloseAlert();
         alertText = alertBox.GetComponentInChildren<TMP_Text>();
     }
     private void Update()
     {
-        perfentageText.text = draw.percentage.ToString() + "%";
-        selectedToolText.text = HandleToolSelected(selectedTool);
+        HandleToolSelected();
+        percentageText.text = draw.percentage.ToString() + "%";
+        selectedToolText.text = "Selected tool: " + selectedTool;
+        
+        if (inputManager.leftMouse && !draw.canDraw && draw.Hit.transform.CompareTag("Mask"))
+            SendAlert("You need to use another tool to clean this surface");
+        else
+            CloseAlert();
     }
 
 }
