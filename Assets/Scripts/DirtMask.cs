@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class DirtMask : MonoBehaviour
 {
+    [SerializeField] protected UI_Manager uiManager;
+    [SerializeField] protected Input_Manager inputManager;
     [SerializeField] protected Draw draw;
     [SerializeField] protected byte completeValue;
     [SerializeField] protected Material material;
     [SerializeField] protected Color color;
+
+    [SerializeField] protected byte requiredTool;
     protected void Start()
     {
         draw = FindAnyObjectByType<Draw>();
@@ -21,5 +25,20 @@ public class DirtMask : MonoBehaviour
             draw.percentage = 0;
         }
 
+    }
+    protected void checkIfCanDraw()
+    {
+        byte uiTool = uiManager.selectedTool;
+        if (uiTool == requiredTool)
+            draw.canDraw = true;
+        else
+        {
+            draw.canDraw = false;
+            if (inputManager.leftMouse && draw.canvas == gameObject.transform)
+                Debug.Log("You need to use Tool " + requiredTool + " to clean this surface");
+            else if (inputManager.leftMouse && draw.canvas == null)
+                Debug.Log("You need to choose a Tool before");
+                
+        }
     }
 }

@@ -8,8 +8,9 @@ public class Draw : MonoBehaviour
     /// </summary>
 
     [SerializeField] private Input_Manager inputManager;
-    
+
     //Texture
+    public bool canDraw;
     public Transform canvas;
     public Texture2D texture;
     public float radius;
@@ -23,7 +24,7 @@ public class Draw : MonoBehaviour
     {
         if (reinitialize)
             ReinitializeCanvas(texture);
-        if (Input.GetMouseButton(0))
+        if (inputManager.leftMouse && canDraw)
         {
             if (texture == null)
             {
