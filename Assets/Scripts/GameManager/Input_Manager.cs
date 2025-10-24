@@ -1,18 +1,33 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Input_Manager : MonoBehaviour
 {
     public bool leftMouse;
     public  Vector2 inputPos;
     public bool resetScene;
+    public bool action;
+    public float xInput;
+    public float yInput;
+    public float mouseX;
+    public float mouseY;
     private void Update()
     {
         HandleDrawInputs();
-        HandleCanvasRotation();
-
+        //HandleCanvasRotation();
+        HandlePlayerMovement();
         resetScene = (Input.GetKey(KeyCode.R));
+        if (Input.GetKey(KeyCode.E))
+            action = !action;
 
+    }
+    private void HandlePlayerMovement()
+    {
+        xInput = Input.GetAxis("Horizontal");
+        yInput = Input.GetAxis("Vertical");
 
+        mouseX = Input.GetAxis("Mouse Y");
+        mouseY = Input.GetAxis("Mouse X");
     }
 
     private void HandleDrawInputs()
@@ -23,7 +38,7 @@ public class Input_Manager : MonoBehaviour
     public byte HandleToolSelectionInput()
     {
         if (Input.GetKey(KeyCode.Alpha0))
-            return 0;
+            return 0;   
         else if (Input.GetKey(KeyCode.Alpha1))
             return 1;
         else if (Input.GetKey(KeyCode.Alpha2))
