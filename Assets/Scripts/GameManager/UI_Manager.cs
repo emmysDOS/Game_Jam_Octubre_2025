@@ -67,10 +67,15 @@ public class UI_Manager : MonoBehaviour
         selectedToolText.text = "Selected tool: " + selectedTool;
     }
 
-    private void SendBubble(string message)
+    public void SendBubble(string message)
     {
         bubble.SetActive(true);
         bubble.GetComponentInChildren<TMP_Text>().text = message;
+    }
+
+    public void CloseBubble()
+    {
+        bubble.SetActive(false);
     }
 
 }

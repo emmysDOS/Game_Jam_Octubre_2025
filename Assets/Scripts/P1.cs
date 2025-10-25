@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class P1 : Painting
 {
+    //public bool closedByInput;
     void Start()
     {
         paintingNumber = 1;
@@ -11,8 +12,9 @@ public class P1 : Painting
     // Update is called once per frame
     void Update()
     {
-        base.Update();   
+        base.Update();
         if (selected)
             db.selected[paintingNumber] = true;
     }
+
 }

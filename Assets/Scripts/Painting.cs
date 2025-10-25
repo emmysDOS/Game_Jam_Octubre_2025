@@ -14,6 +14,13 @@ public class Painting : MonoBehaviour
     [SerializeField] protected int wallPos;
     [SerializeField] protected PaintingsDB db;
     protected byte paintingNumber;
+    [SerializeField] protected UI_Manager uiManager;
+    
+    
+    [SerializeField] protected bool closedByInput;
+    [SerializeField] protected bool nextMessage;
+    [SerializeField] protected string message1;
+    [SerializeField] protected string message2;
 
     protected void Start()
     {
@@ -27,8 +34,9 @@ public class Painting : MonoBehaviour
             completed = true;
             selected = false;
             player.paintingSelected = false;
-            gameObject.GetComponent<Painting>().enabled = false;
             db.completed[paintingNumber] = true;    
+            uiManager.CloseBubble();
+            gameObject.GetComponent<Painting>().enabled = false;
         }
 
 
@@ -36,6 +44,7 @@ public class Painting : MonoBehaviour
 
         HandleSelected();
         player.C1Completed = completed;
+        HandleBubble(message1, message2);
 
 
     }
@@ -52,4 +61,24 @@ public class Painting : MonoBehaviour
         
         animator.SetBool("selected", selected);
     }
+
+    protected void HandleBubble(string message1, string message2)
+    {
+        if (inputManager.action2.IsPressed())
+            nextMessage = true;
+        
+        if (selected && !closedByInput)
+        {
+            uiManager.SendBubble(message1);
+            if (nextMessage)
+                uiManager.SendBubble(message2);
+        }
+        else
+            uiManager.CloseBubble();
+
+        
+
+
+    }
+    
 }

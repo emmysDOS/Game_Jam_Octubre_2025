@@ -9,8 +9,8 @@ public class StateMachine : MonoBehaviour
 
     private void Update()
     {
-        if (inputManager.draw)
-            drawing = !drawing;
+        //if (inputManager.action2)
+          //  drawing = !drawing;
         
     }
 }

@@ -6,8 +6,9 @@ public class Input_Manager : MonoBehaviour
     public bool leftMouse;
     public  Vector2 inputPos;
     public bool resetScene;
-    public bool action;
-    public bool draw;
+    public InputAction action1;
+    public InputAction action2;
+    public bool action3;
     public float xInput;
     public float yInput;
     public float mouseX;
@@ -18,8 +19,9 @@ public class Input_Manager : MonoBehaviour
         //HandleCanvasRotation();
         HandlePlayerMovement();
         resetScene = (Input.GetKey(KeyCode.R));
-        action = (Input.GetKey(KeyCode.E));
-        draw = (Input.GetKey(KeyCode.F));
+        action1 = InputSystem.actions.FindAction("Interact");
+        action2 = InputSystem.actions.FindAction("Next");
+        action3 = (Input.GetKey(KeyCode.G));
 
     }
     private void HandlePlayerMovement()

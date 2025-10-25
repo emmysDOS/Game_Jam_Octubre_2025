@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (inputManager.action)
+        if (inputManager.action1.IsPressed())
             ThrowRay();
 
 
