@@ -19,14 +19,14 @@ public class DirtMask : MonoBehaviour
         float percentage = draw.percentage;
         if (percentage >= completeValue)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
             draw.percentage = 0;
         }
     }
     protected void CheckIfCanDraw()
     {
-        byte uiTool = uiManager.selectedTool;
-        if (uiTool == requiredTool)
+        
+        if (uiManager.selectedTool == requiredTool)
             draw.canDraw = true;
         else
             draw.canDraw = false;

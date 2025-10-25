@@ -2,31 +2,47 @@ using UnityEngine;
 
 public class Painting : MonoBehaviour
 {
-    [SerializeField] private PlayerController player;
-    [SerializeField] private Input_Manager inputManager;    
-    private Transform heldReference;
-    public bool held;
-    private void Start()
+    [SerializeField] protected PlayerController player;
+    [SerializeField] protected Input_Manager inputManager;   
+    [SerializeField] protected Transform table;
+    [SerializeField] protected Animator animator;
+    public bool selected;
+    [SerializeField] protected int layerCount;
+    public bool completed;
+    [SerializeField] protected Transform dustMask;
+    [SerializeField] protected GameObject layersParent;
+    [SerializeField] protected int wallPos;
+
+    protected void Start()
     {
-        heldReference = player.transform.GetChild(1);
+        animator.SetInteger("pos", wallPos);
     }
-    private void Update()
+    protected void Update()
     {
-        HandleHeld();
-        if (held)
-            transform.position = heldReference.position;
-    }
-    private void HandleHeld()
-    {
-        /*
-        Transform main = transform.GetChild(0);
-        Transform dustMask = main.transform.GetChild(1).transform;
-        //Debug.Log(dustMask);
-        if (player.HandleRayToObject().transform.name == dustMask.name && inputManager.action)
-            held = true;
-        */
-        held = inputManager.action;
+        layerCount = layersParent.transform.childCount;
+        if (layerCount == 0)
+        {
+            selected = false;
+            player.drawing  = false;
+            completed = true;
+        }
 
 
+        animator.SetBool("completed", completed);
+
+        HandleSelected();
+
+
+    }
+    protected void HandleSelected()
+    {
+        if (player.hitTransform.name == dustMask.name)
+            selected = true;
+        else
+            selected = false;
+        
+        animator.SetBool("selected", selected);
+
+        player.drawing = selected;
     }
 }

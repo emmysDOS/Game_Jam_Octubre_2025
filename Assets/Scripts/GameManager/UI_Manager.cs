@@ -64,11 +64,12 @@ public class UI_Manager : MonoBehaviour
         HandleToolSelected();
         percentageText.text = draw.percentage.ToString() + "%";
         selectedToolText.text = "Selected tool: " + selectedTool;
-        
+        /*
         if (inputManager.leftMouse && !draw.canDraw && draw.Hit.transform.CompareTag("Mask"))
             SendAlert("You need to use another tool to clean this surface");
         else
             CloseAlert();
+            */
     }
 
 }

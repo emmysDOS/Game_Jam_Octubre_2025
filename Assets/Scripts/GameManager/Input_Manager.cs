@@ -7,6 +7,7 @@ public class Input_Manager : MonoBehaviour
     public  Vector2 inputPos;
     public bool resetScene;
     public bool action;
+    public bool draw;
     public float xInput;
     public float yInput;
     public float mouseX;
@@ -17,8 +18,8 @@ public class Input_Manager : MonoBehaviour
         //HandleCanvasRotation();
         HandlePlayerMovement();
         resetScene = (Input.GetKey(KeyCode.R));
-        if (Input.GetKey(KeyCode.E))
-            action = !action;
+        action = (Input.GetKey(KeyCode.E));
+        draw = (Input.GetKey(KeyCode.F));
 
     }
     private void HandlePlayerMovement()
