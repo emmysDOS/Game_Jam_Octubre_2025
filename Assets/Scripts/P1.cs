@@ -4,6 +4,7 @@ public class P1 : Painting
 {
     void Start()
     {
+        paintingNumber = 1;
         base.Start();
     }
 
@@ -11,8 +12,5 @@ public class P1 : Painting
     void Update()
     {
         base.Update();   
-        player.C1Selected = selected;
-        if (layerCount == 0)
-            player.C1Selected = false;
     }
 }

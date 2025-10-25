@@ -65,8 +65,7 @@ public class Draw : MonoBehaviour
                 UVcoord.x *= _texture.width;
                 UVcoord.y *= _texture.height;
                 //Debug.Log(UVcoord);
-                if (canDraw)
-                    DrawCircle(UVcoord, _texture);
+                DrawCircle(UVcoord, _texture);
             }
         }
     }
@@ -96,7 +95,7 @@ public class Draw : MonoBehaviour
         {
             case 0:
                 {
-                    _calculePercTimer = .2f;
+                    _calculePercTimer = .1f;//This was .2
                     ReinitializeCanvas();
                     break;
                 }

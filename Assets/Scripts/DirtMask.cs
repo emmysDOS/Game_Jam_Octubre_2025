@@ -8,6 +8,7 @@ public class DirtMask : MonoBehaviour
     [SerializeField] protected Color color;
     [SerializeField] protected byte completeValue;
     [SerializeField] protected byte requiredTool;
+    [SerializeField] protected float currrentPercentage;
     protected void Start()
     {
         draw = FindAnyObjectByType<Draw>();
@@ -16,8 +17,8 @@ public class DirtMask : MonoBehaviour
     }
     protected void HandleAliveTime()
     {
-        float percentage = draw.percentage;
-        if (percentage >= completeValue)
+        currrentPercentage = draw.percentage;
+        if (currrentPercentage >= completeValue)
         {
             Destroy(gameObject);
             draw.percentage = 0;

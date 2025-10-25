@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DM_Dust : DirtMask
 {
-    public int selectedTool;
     private void Start()
     {
         base.Start();
@@ -12,7 +11,6 @@ public class DM_Dust : DirtMask
         CheckIfCanDraw();
         if (draw.canvas == gameObject.transform)
             HandleAliveTime();
-        selectedTool = uiManager.selectedTool;
         
     }
 }

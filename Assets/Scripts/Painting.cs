@@ -12,6 +12,8 @@ public class Painting : MonoBehaviour
     [SerializeField] protected Transform dustMask;
     [SerializeField] protected GameObject layersParent;
     [SerializeField] protected int wallPos;
+    [SerializeField] protected PaintingsDB db;
+    protected byte paintingNumber;
 
     protected void Start()
     {
@@ -22,27 +24,32 @@ public class Painting : MonoBehaviour
         layerCount = layersParent.transform.childCount;
         if (layerCount == 0)
         {
-            selected = false;
-            player.drawing  = false;
             completed = true;
+            selected = false;
+            player.paintingSelected = false;
+            gameObject.GetComponent<Painting>().enabled = false;
+            db.completed[paintingNumber] = true;    
         }
 
 
         animator.SetBool("completed", completed);
 
         HandleSelected();
+        player.C1Completed = completed;
 
 
     }
     protected void HandleSelected()
     {
         if (player.hitTransform.name == dustMask.name)
+        {
+            player.paintingSelected = true;
             selected = true;
+        }
+ 
         else
             selected = false;
         
         animator.SetBool("selected", selected);
-
-        player.drawing = selected;
     }
 }

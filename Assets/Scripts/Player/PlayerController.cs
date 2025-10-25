@@ -19,8 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform tableCameraPos;
 
 
-    public bool C1Selected;
-    public bool C2Selected;
+    public bool canDraw;
+    public bool C1Completed;
+    public bool paintingSelected;
     void Update()
     {
 
@@ -28,7 +29,12 @@ public class PlayerController : MonoBehaviour
             ThrowRay();
 
 
-        if (C1Selected || C2Selected)
+
+        if (C1Completed || paintingSelected)
+            canDraw = true;
+        else
+            canDraw = false;
+        if (canDraw)
         {
             Cursor.visible = true;
             transform.position = new Vector3(Mathf.Lerp(transform.position.x, work.transform.position.x, toTableSpeed), Mathf.Lerp(transform.position.y, work.transform.position.y, toTableSpeed), transform.position.z);
@@ -44,7 +50,7 @@ public class PlayerController : MonoBehaviour
             HandleCamera();
             Debug.Log("Drawing");
             //cameraAnimator.SetBool("table", false);
-            Head.transform.position = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z);
+            Head.transform.position = new Vector3((Mathf.Lerp(Head.transform.position.x, transform.position.x, 5 * Time.deltaTime)), (Mathf.Lerp(Head.transform.position.y, transform.position.y + 15, 5 * Time.deltaTime)), (Mathf.Lerp(Head.transform.position.z, transform.position.z, 5* Time.deltaTime)));
         }
        
     }
