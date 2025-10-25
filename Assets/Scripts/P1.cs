@@ -12,5 +12,7 @@ public class P1 : Painting
     void Update()
     {
         base.Update();   
+        if (selected)
+            db.selected[paintingNumber] = true;
     }
 }
