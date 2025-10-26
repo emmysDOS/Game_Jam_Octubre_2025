@@ -22,9 +22,14 @@ public class PlayerController : MonoBehaviour
     public bool canDraw;
     public bool C1Completed;
     public bool paintingSelected;
+
+    private void Start()
+    {
+        ResetCamera();
+    }
     void Update()
     {
-
+        Cursor.lockState = CursorLockMode.Confined;
         if (inputManager.action1.IsPressed())
             ThrowRay();
 
@@ -37,20 +42,24 @@ public class PlayerController : MonoBehaviour
         if (canDraw)
         {
             Cursor.visible = true;
+         
             transform.position = new Vector3(Mathf.Lerp(transform.position.x, work.transform.position.x, toTableSpeed), Mathf.Lerp(transform.position.y, work.transform.position.y, toTableSpeed), transform.position.z);
-            //cameraAnimator.SetBool("table", true);
-            //transform.LookAt(Vector3.forward);
             Head.transform.position = tableCameraPos.position;
             Head.transform.rotation = tableCameraPos.transform.rotation;
+            
+            //cameraAnimator.SetBool("canDraw", true);
         }
         else
         {
-            Cursor.visible = false;
-            Walk(speed,sideSpeed);
+            //cameraAnimator.SetBool("canDraw", false);
+            //Walk(speed,sideSpeed);
             HandleCamera();
-            Debug.Log("Drawing");
-            //cameraAnimator.SetBool("table", false);
+            //Debug.Log("Drawing");
+            cameraAnimator.SetBool("table", false);
             Head.transform.position = new Vector3((Mathf.Lerp(Head.transform.position.x, transform.position.x, 5 * Time.deltaTime)), (Mathf.Lerp(Head.transform.position.y, transform.position.y + 15, 5 * Time.deltaTime)), (Mathf.Lerp(Head.transform.position.z, transform.position.z, 5* Time.deltaTime)));
+            //Head.transform.rotation = new Quaternion(Mathf.Lerp(Head.transform.rotation.x, 0, 5* Time.deltaTime), Head.transform.rotation.y, 0, Head.transform.rotation.w);
+            //Debug.Log(Head.transform.rotation.eulerAngles.x);
+           
         }
        
     }
@@ -64,12 +73,16 @@ public class PlayerController : MonoBehaviour
         float mouseX = inputManager.mouseX;
         float mouseY = inputManager.mouseY;
 
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Vector3 rotation =  Head.transform.rotation.eulerAngles;
         rotation.y += mouseY * mouseSensitivityY;
         rotation.x += mouseX * mouseSensitivityX;
         //Camera.transform.localEulerAngles = rotation;
         Head.transform.localEulerAngles = rotation;
+
+
+        if (inputManager.action2.IsPressed())
+            ResetCamera();
     }
     public void ThrowRay()
     {
@@ -77,6 +90,13 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(Head.transform.position, Head.transform.forward * rayDistance, out hit);
         hitTransform = hit.transform;
         Debug.Log(hit.transform.name.ToString());
+    }
+
+    public void ResetCamera()
+    {
+        Head.transform.rotation = new Quaternion((Mathf.Lerp(Head.transform.rotation.x, 0, 5 * Time.deltaTime)),
+            (Mathf.Lerp(Head.transform.rotation.y, 0, 5 * Time.deltaTime)),
+            (Mathf.Lerp(Head.transform.rotation.x, 0, 5 * Time.deltaTime)), 0);
     }
     private void OnDrawGizmos()
     {

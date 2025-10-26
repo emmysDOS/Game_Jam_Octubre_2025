@@ -21,6 +21,8 @@ public class Painting : MonoBehaviour
     [SerializeField] protected bool nextMessage;
     [SerializeField] protected string message1;
     [SerializeField] protected string message2;
+    
+    public bool alreadyOpened;
 
     protected void Start()
     {
@@ -37,6 +39,7 @@ public class Painting : MonoBehaviour
             db.completed[paintingNumber] = true;    
             uiManager.CloseBubble();
             gameObject.GetComponent<Painting>().enabled = false;
+            //player.ResetCamera();
         }
 
 
@@ -67,18 +70,18 @@ public class Painting : MonoBehaviour
         if (inputManager.action2.IsPressed())
             nextMessage = true;
         
-        if (selected && !closedByInput)
+        if (selected && !alreadyOpened)
         {
             uiManager.SendBubble(message1);
             if (nextMessage)
                 uiManager.SendBubble(message2);
+            alreadyOpened = true;
         }
-        else
-            uiManager.CloseBubble();
+    }
 
-        
-
-
+    protected void ResetPlayerCamera()
+    {
+        player.ResetCamera();
     }
     
 }

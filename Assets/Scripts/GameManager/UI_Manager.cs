@@ -75,6 +75,7 @@ public class UI_Manager : MonoBehaviour
 
     public void CloseBubble()
     {
+        Debug.Log("This should close bubble");
         bubble.SetActive(false);
     }
 
