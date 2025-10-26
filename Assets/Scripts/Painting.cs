@@ -20,13 +20,18 @@ public class Painting : MonoBehaviour
     [SerializeField] protected bool closedByInput;
     [SerializeField] protected bool nextMessage;
     [SerializeField] protected string message1;
-    [SerializeField] protected string message2;
+    protected string message2;
+
+    [SerializeField] protected string[] messages;
     
     public bool alreadyOpened;
+
+    [SerializeField] protected GameObject BackgroundsParent;
 
     protected void Start()
     {
         animator.SetInteger("pos", wallPos);
+        SetBkg();
     }
     protected void Update()
     {
@@ -78,6 +83,17 @@ public class Painting : MonoBehaviour
             alreadyOpened = true;
         }
     }
+
+    protected void SetBkg()
+    {
+        int value = Random.Range(0, BackgroundsParent.transform.childCount);
+        BackgroundsParent.transform.GetChild(value).gameObject.SetActive(true);
+        message1 = messages[value];
+        
+        
+    }
+
+
 
     protected void ResetPlayerCamera()
     {

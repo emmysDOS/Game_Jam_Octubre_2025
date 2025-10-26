@@ -13,6 +13,15 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private TMP_Text selectedToolText;
     public byte selectedTool;
     [SerializeField] private GameObject bubble;
+    [SerializeField] private PaintingsDB paintingsDB;
+    private int completedCount;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private TMP_Text completedText;
+    [SerializeField] private GameObject loadingIcon;
+    [SerializeField] private bool loading;
+    [SerializeField] private AudioManager3 audioManager3;
+    [SerializeField] private GameObject controles;
+    public bool painting;
     public void ReinitializeCanvas()
     {
        draw.ReinitializeCanvas();
@@ -63,8 +72,22 @@ public class UI_Manager : MonoBehaviour
     private void Update()
     {
         HandleToolSelected();
+        HandleCompletedCount();
+        HandleLoadingIcon();
+        HandleControles();
         percentageText.text = draw.percentage.ToString() + "%";
         selectedToolText.text = "Selected tool: " + selectedTool;
+        completedText.text = "Completados: " + completedCount.ToString();
+    }
+    private void HandleCompletedCount()
+    {
+        int count = 0;
+        for (int i = 0; i < paintingsDB.completed.Length; i++)
+        {
+            if (paintingsDB.completed[i] == true)
+                count++;
+        }
+        completedCount = count;
     }
 
     public void SendBubble(string message)
@@ -72,10 +95,24 @@ public class UI_Manager : MonoBehaviour
         bubble.SetActive(true);
         bubble.GetComponentInChildren<TMP_Text>().text = message;
     }
+    private void HandleLoadingIcon()
+    {
+        loading = (draw.percentage == 0 && inputManager.leftMouse && playerController.paintingSelected);
+
+        loadingIcon.SetActive(loading);
+
+        painting = (draw.percentage > 0 && inputManager.leftMouse && playerController.paintingSelected);
+    }
+    private void HandleControles()
+    {
+        if (playerController.paintingSelected)
+            controles.SetActive(false);
+    }
 
     public void CloseBubble()
     {
-        Debug.Log("This should close bubble");
+
+        audioManager3.PlaySound();
         bubble.SetActive(false);
     }
 
