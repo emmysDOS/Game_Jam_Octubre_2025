@@ -152,6 +152,37 @@ Transform:
   - {fileID: 328738435}
   m_Father: {fileID: 2105725719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &29906690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 29906691}
+  m_Layer: 0
+  m_Name: dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &29906691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29906690}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &31898253
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,9 +453,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 941737340}
-  canvas: {fileID: 0}
+  canvas: {fileID: 29906691}
   canDraw: 0
   radius: 63
+  _texture: {fileID: 2800000, guid: f93a0c97e68738d4e85c4a3711377392, type: 3}
   percentage: 0
 --- !u!95 &61063465
 Animator:
@@ -6019,7 +6051,7 @@ MonoBehaviour:
   cameraAnimator: {fileID: 61063465}
   work: {fileID: 1677128787}
   Head: {fileID: 1732939135}
-  hitTransform: {fileID: 0}
+  hitTransform: {fileID: 29906691}
   toTableSpeed: 0.5
   speed: 10
   sideSpeed: 10
@@ -8984,3 +9016,4 @@ SceneRoots:
   - {fileID: 827273997}
   - {fileID: 875862004}
   - {fileID: 5369711158213488613}
+  - {fileID: 29906691}

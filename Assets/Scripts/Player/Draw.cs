@@ -15,7 +15,7 @@ public class Draw : MonoBehaviour
     public bool canDraw;
     public float radius;
     
-    private Texture2D _texture;
+    public Texture2D _texture;
     private bool _reinitialize;
     
     //Percentage calculation
