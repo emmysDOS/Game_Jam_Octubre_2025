@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     public Animator cameraAnimator;
     [SerializeField] private Transform work;
     [SerializeField] private GameObject Head;
-    public Transform hitTransform;
     [SerializeField] private float toTableSpeed;
     public float speed;
     public float sideSpeed;
@@ -23,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public bool C1Completed;
     public bool paintingSelected;
 
+    public string hitName;
+
     private void Start()
     {
         ResetCamera();
@@ -30,8 +31,10 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Cursor.lockState = CursorLockMode.Confined;
+
         if (inputManager.action1.IsPressed())
             ThrowRay();
+  
 
 
 
@@ -88,8 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         Physics.Raycast(Head.transform.position, Head.transform.forward * rayDistance, out hit);
-        hitTransform = hit.transform;
-        Debug.Log(hit.transform.name.ToString());
+        hitName = hit.transform.name;
     }
 
     public void ResetCamera()

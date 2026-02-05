@@ -10,6 +10,7 @@ public class Painting : MonoBehaviour
     [SerializeField] protected int layerCount;
     public bool completed;
     [SerializeField] protected Transform dustMask;
+    protected string dustName;
     [SerializeField] protected GameObject layersParent;
     [SerializeField] protected int wallPos;
     [SerializeField] protected PaintingsDB db;
@@ -58,7 +59,7 @@ public class Painting : MonoBehaviour
     }
     protected void HandleSelected()
     {
-        if (player.hitTransform.name == dustMask.name)
+        if (player.hitName == dustName)
         {
             player.paintingSelected = true;
             selected = true;

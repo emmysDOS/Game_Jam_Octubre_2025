@@ -10,7 +10,7 @@ public class P3 : Painting
     }
 
     // Update is called once per frame
-    void Update()
+    void  Update()
     {
         base.Update();
         if (selected)
