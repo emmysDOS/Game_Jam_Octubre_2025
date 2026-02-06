@@ -5,6 +5,7 @@ public class P2 : Painting
     new void Start()
     {
         paintingNumber = 2;
+        dustName = "DM1C2";
         base.Start();
     }
 

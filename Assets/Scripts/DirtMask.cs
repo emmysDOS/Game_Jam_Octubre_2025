@@ -3,6 +3,7 @@ using UnityEngine;
 public class DirtMask : MonoBehaviour
 {
     [SerializeField] protected UI_Manager uiManager;
+    [SerializeField] protected PlayerController playerController;
     [SerializeField] protected Draw draw;
     [SerializeField] protected Material material;
     [SerializeField] protected Color color;
@@ -12,6 +13,7 @@ public class DirtMask : MonoBehaviour
     protected void Start()
     {
         draw = FindAnyObjectByType<Draw>();
+        playerController = FindAnyObjectByType<PlayerController>();
         gameObject.GetComponent<Renderer>().material = material;
         material.color = color;
     }
@@ -32,4 +34,6 @@ public class DirtMask : MonoBehaviour
         else
             draw.canDraw = false;
     }
+
+  
 }

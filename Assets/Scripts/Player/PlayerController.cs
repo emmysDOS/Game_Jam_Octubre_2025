@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public bool canDraw;
     public bool C1Completed;
     public bool paintingSelected;
+    public bool painting = true;
 
     public string hitName;
 
@@ -38,11 +39,14 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (C1Completed || paintingSelected)
-            canDraw = true;
-        else
-            canDraw = false;
-        if (canDraw)
+        //if (C1Completed || paintingSelected)
+          //  canDraw = true;
+        //else
+          //  canDraw = false;
+        //if (paintingSelected && painting)
+            //canDraw = true;
+        
+        if (paintingSelected && painting)
         {
             Cursor.visible = true;
          

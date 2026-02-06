@@ -42,14 +42,16 @@ public class Painting : MonoBehaviour
             completed = true;
             selected = false;
             player.paintingSelected = false;
-            db.completed[paintingNumber] = true;    
+            player.painting = false;
+            db.completed[paintingNumber] = true;
+            animator.SetInteger("completedPos", paintingNumber);
             uiManager.CloseBubble();
             gameObject.GetComponent<Painting>().enabled = false;
             //player.ResetCamera();
         }
 
 
-        animator.SetBool("completed", completed);
+        //animator.SetBool("completed", completed);
 
         HandleSelected();
         player.C1Completed = completed;
@@ -59,7 +61,7 @@ public class Painting : MonoBehaviour
     }
     protected void HandleSelected()
     {
-        if (player.hitName == dustName)
+        if (player.hitName == dustName && !completed)
         {
             player.paintingSelected = true;
             selected = true;
