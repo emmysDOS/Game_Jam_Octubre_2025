@@ -42,7 +42,7 @@ public class Painting : MonoBehaviour
             completed = true;
             selected = false;
             player.paintingSelected = false;
-            player.painting = false;
+            //player.painting = false;
             db.completed[paintingNumber] = true;
             animator.SetInteger("completedPos", paintingNumber);
             uiManager.CloseBubble();

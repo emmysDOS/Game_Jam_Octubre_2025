@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class P1 : Painting
 {
-    //public bool closedByInput;
     void Start()
     {
         paintingNumber = 1;
