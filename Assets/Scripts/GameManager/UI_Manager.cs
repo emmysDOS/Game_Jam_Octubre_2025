@@ -21,6 +21,12 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] private bool loading;
     [SerializeField] private AudioManager3 audioManager3;
     [SerializeField] private GameObject controles;
+    
+    
+    
+    [SerializeField] private Animator pincel_0;
+    [SerializeField] private Animator pincel_1;
+    [SerializeField] private Animator pincel_2;
     public bool painting;
     public void ReinitializeCanvas()
     {
@@ -33,15 +39,24 @@ public class UI_Manager : MonoBehaviour
     }
     public void SetTool_0()
     {
-        selectedTool = 0;
+        draw.radius = 63;
+        pincel_0.SetBool("selected", true);
+        pincel_1.SetBool("selected", false);
+        pincel_2.SetBool("selected", false);
     }
     public void SetTool_1()
     {
-        selectedTool = 1;
+        draw.radius = 80;
+        pincel_0.SetBool("selected", false);
+        pincel_1.SetBool("selected", true);
+        pincel_2.SetBool("selected", false);
     }
     public void SetTool_2()
     {
-        selectedTool = 2;
+        draw.radius = 100;
+        pincel_0.SetBool("selected", false);
+        pincel_1.SetBool("selected", false);
+        pincel_2.SetBool("selected", true);
     }
     private string HandleToolSelected()
     {
