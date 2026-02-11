@@ -91,7 +91,7 @@ public class UI_Manager : MonoBehaviour
         HandleLoadingIcon();
         HandleControles();
         percentageText.text = draw.percentage.ToString() + "%";
-        selectedToolText.text = "Selected tool: " + selectedTool;
+        //selectedToolText.text = "Selected tool: " + selectedTool;
         completedText.text = completedCount.ToString();
     }
     private void HandleCompletedCount()
